@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css"
+      integrity="sha512-xiunq9hpKsIcz42zt0o2vCo34xV0j6Ny8hgEylN3XBglZDtTZ2nwnqF/Z/TTCc18sGdvCjbFInNd++6q3J0N6g=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <h1>NAUDOTI AUTOMOBILIAI</h1>
+      </div>
+      <div class="filter">
+        <select name="sbrand" id="sbrand">
+          <option value="">All brands</option>
+          <option value="audi">Audi</option>
+          <option value="bmw">BMW</option>
+        </select>
+      </div>
+      <div class="cards" id="cards"></div>
+      <div class="add">
+        <a href="add.html" class="button">Add Car</a>
+      </div>
+    </div>
+
+    <script>
+      const cards = document.getElementById("cards");
+      let scar = "";
+      function displaycars(scar) {
+        fetch(`http://127.0.0.1:3000/${scar}`)
+          .then((response) => response.json())
+          .then((data) => {
+            cards.innerHTML = "";
+            data.forEach((item) => {
+              const card = document.createElement("div");
+              card.setAttribute("class", "card");
+              const cpic = document.createElement("img");
+              cpic.setAttribute("src", item.image);
+              cpic.setAttribute("alt", "Car Photo");
+              const cname = document.createElement("div");
+              cname.setAttribute("class", "name");
+              cname.textContent = item.brand + " " + item.model;
+              const cprice = document.createElement("div");
+              cprice.setAttribute("class", "price");
+              cprice.textContent = Number(item.price / 100) + " \u20ac";
+              card.append(cpic, cname, cprice);
+              cards.append(card);
+            });
+          });
+      }
+      displaycars(scar);
+      document.getElementById("sbrand").addEventListener("change", (e) => {
+        e.preventDefault();
+        scar = e.target.value;
+        displaycars(scar);
+      });
+    </script>
+  </body>
+</html>

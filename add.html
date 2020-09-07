@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css"
+      integrity="sha512-xiunq9hpKsIcz42zt0o2vCo34xV0j6Ny8hgEylN3XBglZDtTZ2nwnqF/Z/TTCc18sGdvCjbFInNd++6q3J0N6g=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <h1>Add Car</h1>
+      </div>
+      <div class="add">
+        <form>
+          <input type="url" name="image" placeholder="image url" />
+          <input type="text" name="brand" placeholder="BMW" />
+          <input type="text" name="model" placeholder="X6" />
+          <input type="number" name="price" placeholder="price" />
+          <button type="submit">Add to database</button>
+          <a href="index.html" class="button">View Cars</a>
+        </form>
+      </div>
+    </div>
+    <script>
+      document.forms[0].addEventListener("submit", (e) => {
+        e.preventDefault();
+        fetch("http://127.0.0.1:3000", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            image: e.target.image.value,
+            brand: e.target.brand.value,
+            model: e.target.model.value,
+            price: Number(e.target.price.value),
+          }),
+        });
+        alert("You have added the car");
+      });
+    </script>
+  </body>
+</html>
